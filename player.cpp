@@ -6,6 +6,10 @@ Player::Player()
 {
 	m_handle = -1;
 	m_fieldY = 0.0f;
+
+	m_isjumpUp = false;
+	m_isjumpDown = false;
+
 	m_isDead = false;
 }
 
@@ -32,9 +36,31 @@ void Player::update()
 
 	// キー入力処理
 	int padState = GetJoypadInputState(DX_INPUT_KEY_PAD1);
-	if (padState & PAD_INPUT_1)
+	if (padState & PAD_INPUT_1)// Zキーを押した場合、ジャンプを行う
 	{
+		m_isjumpUp = true;
 	}
+
+	if (m_isjumpUp)// Zキーを押した場合、ジャンプを行う
+	{
+		m_pos.y -= 4.0f;
+		if (m_pos.y <= 64.0f)
+		{
+			m_isjumpUp = false;
+			m_isjumpDown = true;
+		}
+	}
+	else if (m_isjumpDown)// Zキーを押した場合、ジャンプを行う
+	{
+		m_pos.y += 4.0f;
+		if (m_pos.y >= m_fieldY - m_graphSize.y)
+		{
+			m_pos.y = m_fieldY - m_graphSize.y;
+			m_isjumpUp = false;
+			m_isjumpDown = true;
+		}
+	}
+
 }
 
 void Player::draw()
