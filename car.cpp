@@ -8,7 +8,13 @@ namespace
 	constexpr int kWaitFrameMin = 60;
 	constexpr int kWaitFrameMax = 180;
 	// 車の速度
-	constexpr float kSpeed = -20.0f;
+	constexpr float kSpeed = -15.0f;
+	// 車のジャンプ力
+	constexpr float CarJump = -18.0f;
+	// 車の重力
+	constexpr float CarGrabity = 1.0f;
+	// 車の飛ぶ位置
+	constexpr int CarJumpPlace = 480;
 }
 
 Car::Car()
@@ -46,7 +52,7 @@ void Car::setup(float fieldY)
 	{
 		m_moveType = kMoveTypeStop;
 	}
-	if (randNum < 38 + 30 + 30)
+	else if (randNum < 38 + 30 + 30)
 	{
 		m_moveType = kMoveTypeJump;
 	}
@@ -54,6 +60,9 @@ void Car::setup(float fieldY)
 	{
 		m_moveType = kMoveTypeReturn;
 	}
+	// デバック用に挙動を決める
+	 m_moveType = kMoveTypeJump;
+
 
 	// 動き始めるまでの時間を設定	1秒から3秒待つ	60フレームから180フレーム
 	m_waitFrame = GetRand(kWaitFrameMax - kWaitFrameMin) + kWaitFrameMin;
@@ -115,6 +124,21 @@ void Car::updateStop()
 void Car::updateJump()
 {
 	m_pos += m_vec;// 仮
+	// 地面とのあたり
+	bool isFieldC = false;
+	if (m_pos.y > m_fieldY - m_size.y)
+	{
+		m_pos.y = m_fieldY - m_size.y;
+		isFieldC = true;
+	}
+	if (m_pos.x < CarJumpPlace)
+	{
+		if (isFieldC)
+		{
+			m_vec.y = CarJump;	// ジャンプ処理
+		}
+	}
+	m_vec.y += CarGrabity;
 }
 
 // 途中で引き返す(絶対成功)
