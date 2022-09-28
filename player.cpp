@@ -2,13 +2,23 @@
 #include "game.h"
 #include "player.h"
 
+namespace
+{
+	// キャラクターのサイズ
+	constexpr float kSizeX = 128.0;
+	constexpr float kSizeY = 128.0;
+
+	// ジャンプ力
+	constexpr float kJumpAcc = -30.0f;
+	// 重力
+	constexpr float kGrabity = 1.5f;
+}
+
+
 Player::Player()
 {
 	m_handle = -1;
 	m_fieldY = 0.0f;
-
-	m_isjumpUp = false;
-	m_isjumpDown = false;
 
 	m_isDead = false;
 }
@@ -32,34 +42,28 @@ void Player:: setup(float fieldY)
 
 void Player::update()
 {
+	if (m_isDead) return;
+
 	m_pos += m_vec;
+	// 地面とのあたり
+	bool isField = false;
+	if (m_pos.y > m_fieldY - m_graphSize.y)
+	{
+		m_pos.y = m_fieldY - m_graphSize.y;
+		isField = true;
+	}
 
 	// キー入力処理
 	int padState = GetJoypadInputState(DX_INPUT_KEY_PAD1);
 	if (padState & PAD_INPUT_1)// Zキーを押した場合、ジャンプを行う
 	{
-		m_isjumpUp = true;
-	}
-
-	if (m_isjumpUp)// Zキーを押した場合、ジャンプを行う
-	{
-		m_pos.y -= 4.0f;
-		if (m_pos.y <= 64.0f)
+		if (isField)
 		{
-			m_isjumpUp = false;
-			m_isjumpDown = true;
+			m_vec.y = kJumpAcc;	// ジャンプ処理
 		}
 	}
-	else if (m_isjumpDown)// Zキーを押した場合、ジャンプを行う
-	{
-		m_pos.y += 4.0f;
-		if (m_pos.y >= m_fieldY - m_graphSize.y)
-		{
-			m_pos.y = m_fieldY - m_graphSize.y;
-			m_isjumpUp = false;
-			m_isjumpDown = true;
-		}
-	}
+	m_vec.y += kGrabity;
+	
 
 }
 
@@ -76,7 +80,6 @@ void Player::draw()
 		DrawRectGraph(m_pos.x, m_pos.y,
 			0, 0, m_graphSize.x/2, m_graphSize.y,
 			m_handle, TRUE, FALSE);
-
 	}
 	//DrawGraphF(m_pos.x, m_pos.y, m_handle, true);
 
