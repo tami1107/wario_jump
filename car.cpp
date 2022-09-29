@@ -8,7 +8,7 @@ namespace
 	constexpr int kWaitFrameMin = 60;
 	constexpr int kWaitFrameMax = 180;
 	// 車の速度
-	constexpr float kSpeed = -12.0f;
+	constexpr float kSpeed = -5.0f;
 	// 車のジャンプ力
 	constexpr float CarJump = -18.0f;
 	// 車の重力
@@ -16,7 +16,7 @@ namespace
 	// 車の飛ぶ位置
 	constexpr int CarJumpPlace = 480;
 	// 車の止まる位置
-	constexpr int CarStop = 480;
+	constexpr int CarStop = 300;
 }
 
 Car::Car()
@@ -68,7 +68,7 @@ void Car::setup(float fieldY)
 		m_moveType = kMoveTypeReturn;
 	}
 	// デバック用に挙動を決める
-	// m_moveType = kMoveTypeReturn;
+	 m_moveType = kMoveTypeReturn;
 
 
 	// 動き始めるまでの時間を設定	1秒から3秒待つ	60フレームから180フレーム
@@ -110,7 +110,17 @@ void Car::update()
 
 void Car::draw()
 {
-	DrawGraphF(m_pos.x, m_pos.y, m_handle, true);
+	if (m_vec.x <= 0.0f)
+	{
+		DrawGraphF(m_pos.x, m_pos.y, m_handle, true);
+	}
+	else
+	{
+		// 読みこんだグラフィックを反転描画
+		DrawTurnGraph(m_pos.x, m_pos.y, m_handle, FALSE);
+	}
+	
+	
 	//DrawFormatString(0,0,GetColor(255,255,255),"wait:%d",m_waitFrame);
 }
 
@@ -162,7 +172,7 @@ void Car::updateJump()
 	m_vec.y += CarGrabity;
 }
 
-// 一時停止フェイント
+// 速度変更フェイント
 void Car::updateFeint()
 {
 	m_pos += m_vec;// 仮
@@ -184,9 +194,13 @@ void Car::updateReturn()
 {
 	m_pos += m_vec;// 仮
 
-	if (m_pos.x < 320)
+	if (m_pos.x < CarStop)
 	{
-		m_vec.x = kSpeed*-1;
+		m_vec.x = 0.0f;
+		m_waitTime--;
 	}
-	
+	if (m_waitTime < 0)
+	{
+		m_vec.x = kSpeed * -1;
+	}
 }

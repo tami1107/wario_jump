@@ -61,6 +61,9 @@ private:
 	// フェイントする時間
 	int m_waitTime;
 
+	// リスタートフラグ
+	int m_isRestart;
+
 	// 位置
 	Vec2 m_pos;
 	// ベクトル
