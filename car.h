@@ -33,6 +33,7 @@ private:
 		kMoveTypeStop,
 		kMoveTypeJump,
 		kMoveTypeReturn,
+		kMoveTypeFeint,
 
 		kMoveTypeNum
 	}MoveType;
@@ -42,6 +43,7 @@ private:
 	void updateStop();		// 一時停止フェイント
 	void updateJump();		// ジャンプする
 	void updateReturn();	// 途中で引き返す(絶対成功)
+	void updateFeint();		// 途中で速度が下がり、また上がる
 	
 
 private:
@@ -55,6 +57,9 @@ private:
 
 	// 移動開始までの待ち時間(フレーム数)
 	int m_waitFrame;
+
+	// フェイントする時間
+	int m_waitTime;
 
 	// 位置
 	Vec2 m_pos;
