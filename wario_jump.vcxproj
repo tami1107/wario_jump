@@ -142,6 +142,7 @@
     <ClCompile Include="car.cpp" />
     <ClCompile Include="main.cpp" />
     <ClCompile Include="player.cpp" />
+    <ClCompile Include="SceneTest.cpp" />
     <ClCompile Include="SceneTitle.cpp" />
     <ClCompile Include="SceneMain.cpp" />
     <ClCompile Include="Vec2.cpp" />
@@ -150,6 +151,7 @@
     <ClInclude Include="car.h" />
     <ClInclude Include="game.h" />
     <ClInclude Include="player.h" />
+    <ClInclude Include="SceneTest.h" />
     <ClInclude Include="SceneTitle.h" />
     <ClInclude Include="SceneMain.h" />
     <ClInclude Include="Vec2.h" />

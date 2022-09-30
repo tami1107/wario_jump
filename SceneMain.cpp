@@ -11,7 +11,8 @@ namespace
 
 SceneMain::SceneMain()
 {
-
+	m_hPlayer = -1;
+	m_hCar = -1;
 }
 
 SceneMain::~SceneMain()
@@ -48,6 +49,14 @@ void SceneMain::update()
 	{
 		m_player.setDead(true);
 	}
+
+	//if (m_car.isRestart())
+	//{
+	//	m_car.setup(kFieldY);
+	//	m_player.setDead(false);
+	//}
+
+	//return false;
 }
 
 // •`‰æ
