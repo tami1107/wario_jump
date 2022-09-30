@@ -8,7 +8,7 @@ namespace
 	constexpr int kWaitFrameMin = 60;
 	constexpr int kWaitFrameMax = 180;
 	// 車の速度
-	constexpr float kSpeed = -5.0f;
+	constexpr float kSpeed = -8.0f;
 	// 車のジャンプ力
 	constexpr float CarJump = -18.0f;
 	// 車の重力
@@ -68,7 +68,7 @@ void Car::setup(float fieldY)
 		m_moveType = kMoveTypeReturn;
 	}
 	// デバック用に挙動を決める
-	 m_moveType = kMoveTypeReturn;
+	// m_moveType = kMoveTypeReturn;
 
 
 	// 動き始めるまでの時間を設定	1秒から3秒待つ	60フレームから180フレーム
